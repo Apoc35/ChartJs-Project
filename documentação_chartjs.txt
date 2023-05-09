@@ -1,0 +1,38 @@
+criação do todayLine:
+
+cria-se a todayLine block;
+toda a configuração (blocos) no chart é uma constante;
+setado um ID para todayLine;
+Feita uma desestruturação para usar elementos do chart, que desenharão a tabela para ser vista;
+
+Fontes e links do FontAwesome:
+
+link do script: https://cdnjs.com/libraries/font-awesome/4.7.0
+link dos ícones: https://fontawesome.com/v4/icons/
+
+
+
+
+afterDatasetsDraw() -> função utilizada para desenhar na chart. Quando usada como after, ela desenha a marcação em cima da tabela.
+beforeDatasetsDraw() -> função utilizada para desenhar na chart. Quando usada como after, ela desenha a marcação atrás da tabela.
+
+propriedades e funções ctx:
+
+getPixelForValue() -> função para marcar no chart de acordo com a posição do eixo;
+beginPath() -> função que define que vamos começar a desenhar algo no chart usando o ctx;
+.lineWidth -> Define a largura da linha a ser usada no char;
+.moveTo -> propriedade para setar um ponto no chart;
+.lineTo -> propriedade para setar até onde você vai desenhar a linha no char usando o ctx;
+.stroke -> propriedade da estilização do brush que será utilizado para desenhar essa linha;
+.strokeStyle -> propriedade para estilo da linha criada, Cor.
+.setLineDash([a,b]) -> propriedade para estilo da linha criada, deixar a linha pontilhada. O primeiro argumento do array são os pixels que terão cor,
+o segundo argumento são os espaços entre eles.
+.font -> estilização da fonte utilizada no chart.
+.fillText(text, x, y) -> Propriedade para escrita na chart. Primeiro argumento é o que será escrito, o segundo e terceiro são as posições no chart.
+.fillBaseline -> propriedade para justificar o que será escrito.
+.fillStyle -> preenche uma área ou o que será escrito com uma cor.
+.textAlign -> propriedade para alinhamento do conteúdo.
+.arc(x, y, radius, angleS, angleE, false) -> propriedade para criação de circulos no chart. Argumentos: x e y são as posições, radius é o raio do círculo, angleS e angleE são os angulos de início e fim e por último é o sentido do círculo que se orienta por clockwise ou não. Pode ser true ou false e normalmente é false.
+
+
+
