@@ -50,6 +50,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
+      const colours = ['rgba(255, 26, 104, 1)', 'rgba(255, 159, 64, 1)', 'rgba(75, 192, 192, 1)'];
     // setup
     const data = {
       //labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -63,25 +64,9 @@
           {x: ['2023-05-15', '2023-05-24'], y: 'task5', name: 'Santiago', status: '0'},
           {x: ['2023-05-18', '2023-05-30'], y: 'task6', name: 'James', status: '1'}
         ],
-        backgroundColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 1)'
-        ],
-        borderWidth: 1,
+        backgroundColor: (ctx) => {
+          return colours[ctx.raw.status];
+        },
         borderSkipped: false,
         borderRadius: 10,
         barPercentage: 0.5
@@ -112,11 +97,11 @@ const todayLine = {
 const status = {
   id: 'status',
   afterDatasetsDraw(chart, args, pluginOptions) {
-    const { ctx, data, chartArea: {top, bottom, left, right}, scales:{x, y} } = chart;
+    const { ctx, data, options, chartArea: {top, bottom, left, right}, scales:{x, y} } = chart;
 
     const icons = ['\uf00d', '\uf110', '\uf00c'];
-    const colors = ['rgba(255, 26, 104, 1)', 'rgba(255, 159, 64, 1)', 'rgba(75, 192, 192, 1)']
     const angle = Math.PI / 180;
+    const paddingRight = options.layout.padding.right;
 
     ctx.save();
     ctx.font = 'bolder 12px FontAwesome';
@@ -125,14 +110,17 @@ const status = {
 
     data.datasets[0].data.forEach((datapoint, index) => {
       ctx.beginPath();
-      ctx.fillStyle = colors[datapoint.status];
-      ctx.arc(right + 50, y.getPixelForValue(index), 14, 0, angle * 360, false);
+      ctx.fillStyle = colours[datapoint.status];
+      ctx.arc(right + (paddingRight / 2), y.getPixelForValue(index), 14, 0, angle * 360, false);
       ctx.closePath();
       ctx.fill();
 
       ctx.fillStyle = 'white';
-      ctx.fillText(icons[datapoint.status], right + 50, y.getPixelForValue(index) + 4);
+      ctx.fillText(icons[datapoint.status], right + (paddingRight / 2), y.getPixelForValue(index) + 4);
     })
+    ctx.font = 'bolder 12px sans-serif';
+    ctx.fillStyle = 'black';
+    ctx.fillText('Status', right + (paddingRight / 2), top - 15);
     ctx.restore();
   }
 }
@@ -141,15 +129,15 @@ const status = {
 const assignedTasks = {
   id:'assignedTasks',
   afterDatasetsDraw(chart, args, pluginOptions) {
-    const { ctx, data, scales:{x, y}} = chart;
+    const { ctx, data, chartArea: {top, bottom, left, right}, scales:{x, y} } = chart;
     ctx.save();
     ctx.font = 'bolder 12px sans-serif';
     ctx.fillStyle = 'black';
     ctx.fillBaseline = 'middle';
-
     data.datasets[0].data.forEach((datapoint, index) => {
       ctx.fillText(datapoint.name, 10, y.getPixelForValue(index));
-    })
+    });
+    ctx.fillText('Names', 10, top - 15);
     ctx.restore();
   }
 };
