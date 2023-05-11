@@ -45,6 +45,7 @@
     <div class="chartCard">
       <div class="chartBox">
         <canvas id="myChart"></canvas>
+        <input type="month" onchange="chartFilter(this)">
       </div>
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -62,7 +63,10 @@
           {x: ['2023-05-09', '2023-05-12'], y: 'task3', name: 'David', status: '2'},
           {x: ['2023-05-12', '2023-05-21'], y: 'task4', name: 'Lily', status: '2'},
           {x: ['2023-05-15', '2023-05-24'], y: 'task5', name: 'Santiago', status: '0'},
-          {x: ['2023-05-18', '2023-05-30'], y: 'task6', name: 'James', status: '1'}
+          {x: ['2023-05-18', '2023-05-30'], y: 'task6', name: 'James', status: '1'},
+          {x: ['2023-06-12', '2023-06-21'], y: 'task7', name: 'Lily', status: '2'},
+          {x: ['2023-06-15', '2023-06-24'], y: 'task8', name: 'Santiago', status: '0'},
+          {x: ['2023-06-18', '2023-06-30'], y: 'task9', name: 'James', status: '1'}
         ],
         backgroundColor: (ctx) => {
           return colours[ctx.raw.status];
@@ -192,7 +196,12 @@ const assignedTasks = {
             display: false
           },
           tooltip: {
+            displayColors: false,
+            yAling: 'bottom',
             callbacks: {
+              label: (ctx) => {
+                return '';
+              },
               title: (ctx) => {
                 const startDate = new Date(ctx[0].raw.x[0]);
                 const endDate = new Date(ctx[0].raw.x[1]);
@@ -224,6 +233,21 @@ const assignedTasks = {
     // Instantly assign Chart.js version
     const chartVersion = document.getElementById('chartVersion');
     chartVersion.innerText = Chart.version;
+
+    function chartFilter(date){
+      const year = date.value.substring(0, 4);
+      const month = date.value.substring(5, 7);
+      const lastDay = (y, m) => {
+        return new Date(y, m, 0).getDate();
+      }
+
+      const startDate = `${year}-${month}-01`;
+      const endDate = `${year}-${month}-${lastDay(year, month)}`;
+
+      myChart.config.options.scales.x.min = startDate;
+      myChart.config.options.scales.x.max = endDate;
+      myChart.update();
+    }
     </script>
 
   </body>
