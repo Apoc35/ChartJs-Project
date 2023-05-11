@@ -85,6 +85,7 @@ const todayLine = {
 
     ctx.save();
 
+    if(x.getPixelForValue(new Date()) >= left && y.getPixelForValue(new Date()) <= right) {
     ctx.beginPath();
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'rgba(102, 102, 102, 1)';
@@ -112,6 +113,7 @@ const todayLine = {
     ctx.fillStyle = 'rgba(102, 102, 102, 1)';
     ctx.textAlign = 'center';
     ctx.fillText('Today', x.getPixelForValue(new Date()), bottom + 15);
+    }
   }
 }
 
