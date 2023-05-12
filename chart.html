@@ -271,7 +271,9 @@ const assignedTasks = {
       const teamMemberTask = document.getElementById('teamMemberTask');
       const statusTask = document.getElementById('statusTask');
 
-      myChart.data.datasets[0].data.push({x: [startDateTask.value, endDateTask.value], y: nameTask.value, name: teamMemberTask.value, status: parseInt(statusTask.value)})
+      const arrayLength = myChart.data.datasets[0].data.length;
+
+      myChart.data.datasets[0].data[arrayLength] = {x: [startDateTask.value, endDateTask.value], y: nameTask.value, name: teamMemberTask.value, status: parseInt(statusTask.value)}
       myChart.update();
     }
 
